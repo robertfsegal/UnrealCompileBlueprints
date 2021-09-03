@@ -6,16 +6,16 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "CompileBpBlueprintFunctionLibrary.generated.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(LogCompileBP, Log, All);
+DECLARE_LOG_CATEGORY_EXTERN(LogCompileBlueprints, Log, All);
 
 /**
- * 
+ *
  */
 UCLASS()
 class COMPILEBPTESTGAME_API UCompileBpBlueprintFunctionLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
-	
+
 	UFUNCTION(BlueprintCallable, Category = "CompileBpBlueprintFunctionLibrary")
 	static void CompileAllBlueprints();
 };

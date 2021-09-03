@@ -8,17 +8,17 @@
 
 #include "Windows/WindowsPlatformProcess.h"
 
-DEFINE_LOG_CATEGORY(LogCompileBP);
+DEFINE_LOG_CATEGORY(LogCompileBlueprints);
 
 void UCompileBpBlueprintFunctionLibrary::CompileAllBlueprints()
 {
 	FString ProjFilePath = FPaths::GetProjectFilePath();
-	FString UE4EditorCmd = FPaths::ConvertRelativePathToFull(FPaths::Combine(FPaths::EngineDir(), TEXT("Binaries"), TEXT("Win64"), TEXT("UnrealEditor.exe")));
-	FString Params       = "\"" + ProjFilePath + "\"" + " -run=CompileAllBlueprints";
+	FString UE4EditorCmd = FPaths::ConvertRelativePathToFull(FPaths::Combine(FPaths::EngineDir(), TEXT("Binaries"), TEXT("Win64"), TEXT("UE4Editor-cmd.exe")));
+	FString Params = "\"" + ProjFilePath + "\"" + " -run=CompileAllBlueprints";
 
 	int32 ReturnCode = -1;
 
-	void* PipeRead  = nullptr;
+	void* PipeRead = nullptr;
 	void* PipeWrite = nullptr;
 
 	if (!FPlatformProcess::CreatePipe(PipeRead, PipeWrite))
@@ -28,7 +28,7 @@ void UCompileBpBlueprintFunctionLibrary::CompileAllBlueprints()
 
 	FProcHandle Proc = FPlatformProcess::CreateProc(*UE4EditorCmd, *Params, true, false, false, nullptr, 0, nullptr, PipeWrite);
 
-	UE_LOG(LogCompileBP, Warning, TEXT(" > %s %s"), *UE4EditorCmd, *Params);
+	UE_LOG(LogCompileBlueprints, Warning, TEXT(" > %s %s"), *UE4EditorCmd, *Params);
 
 	FString StringOutput;
 
@@ -50,11 +50,11 @@ void UCompileBpBlueprintFunctionLibrary::CompileAllBlueprints()
 		{
 			if (s.Contains(TEXT("error"), ESearchCase::IgnoreCase))
 			{
-				UE_LOG(LogCompileBP, Error, TEXT("%s"), *s);
+				UE_LOG(LogCompileBlueprints, Error, TEXT("%s"), *s);
 			}
 			else
 			{
-				UE_LOG(LogCompileBP, Warning, TEXT("%s"), *s);
+				UE_LOG(LogCompileBlueprints, Warning, TEXT("%s"), *s);
 			}
 		}
 
